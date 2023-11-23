@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="com.SiYeong.mapper.UserMapper">
+  
+  	<!--  회원 가입  -->
+  	<insert id="userJoin">
+  	
+  		insert into music_user values(#{userId}, #{userPw}, #{userName}, #{userMail}, #{userAddr1}, #{userAddr2}, #{userAddr3}, 0, sysdate, 100000, 5000 )
+
+  	</insert>
+  	
+  	<!-- 아이디 중복검사 -->
+  	<select id="idCheck" resultType="int">
+  	
+  		select count(*) from music_user where userId = #{userId}
+  	
+  	</select>
+  	
+  	<!-- 로그인 -->
+      <select id="userLogin" resultType="com.SiYeong.model.UserVO">
+      
+         select userId, userPw, userName, adminck, money, point from music_user where userId = #{userId}
+      
+      </select>
+ 
+  </mapper>
