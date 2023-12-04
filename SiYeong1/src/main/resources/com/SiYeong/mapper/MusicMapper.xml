@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="com.SiYeong.mapper.MusicMapper">
+  	
+  	<!-- 음악 등록 -->
+      <insert id="musicEnroll">
+      
+      	insert into music_info(musicTitle, musicSinger, musicLyrics, nationId) values(#{musicTitle}, #{musicSinger}, #{musicLyrics}, #{nationId} )
+      	
+      </insert>
+      
+   	<!-- 음악 목록 -->
+      <select id="musicGetList" resultType="com.SiYeong.model.MusicVO">
+      
+      <![CDATA[
+          select * from (
+              select /*+INDEX_DESC(music_info SYS_C007509) */ 
+                  rownum as rn, musicid, musictitle, musicsinger, nationid
+            from music_info 
+            where
+             
+    ]]>         
+            <if test="keyword != null">
+                musicTitle like '%'||#{keyword}||'%' and
+            </if>
+            
+    <![CDATA[        
+             rownum <= #{pageNum}*#{amount}
+            )
+        where rn > (#{pageNum} - 1) * #{amount}
+      ]]>
+      
+      </select>   
+      
+    <!-- 음악 개수 -->
+      <select id="musicGetTotal" resultType="int">
+      
+          select count(*) from music_info
+          
+          <if test="keyword != null">
+          
+             where musicTitle like '%' || #{keyword} || '%'
+          
+          </if>
+          
+      </select> 
+      
+    <!-- 음악 상세 페이지 -->
+  	<select id="musicGetDetail" resultType="com.SiYeong.model.MusicVO">
+  	
+  		select * from music_info where musicId = #{musicId}
+  	
+  	</select>
+  	
+  	
+  	<!-- 음악 정보 수정 -->
+  	<update id="musicModify">
+  	
+  		update music_info set musicTitle=#{musicTitle}, musicSinger=#{musicSinger}, musicLyrics=#{musicLyrics}, nationId=#{nationId} where musicId = #{musicId}
+  	
+  	</update>
+  	
+  	<!-- 음악 정보 삭제 -->
+	<delete id="musicDelete">
+	
+		delete from music_info where musicId = #{musicId}
+	
+	</delete>
+  	
+  </mapper>

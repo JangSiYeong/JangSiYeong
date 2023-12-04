@@ -42,6 +42,9 @@
 	  <prop key="mail.smtp.socketFactory.class">javax.net.ssl.SSLSocketFactory</prop>
 	  </props>
 	 </property>
+	 
+	 
+	 
 	</bean>
 	
 	

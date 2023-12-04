@@ -24,6 +24,20 @@
 	
 	<context:component-scan base-package="com.SiYeong.Controller" />
 	
+	<!-- 인터셉터 적용 -->
+    <interceptors>
+        <interceptor>
+            <mapping path="/user/login.do"></mapping>
+            <beans:bean id="loginIntreceptor" class="com.SiYeong.interceptor.LoginInterceptor"></beans:bean>
+        </interceptor>
+        <interceptor>
+            <mapping path="/admin/**"></mapping>
+            <beans:bean id="AdminIntreceptor" class="com.SiYeong.interceptor.AdminInterceptor"></beans:bean>
+        </interceptor>
+    </interceptors>
+	
+	<!-- 업로드 관련 빈 -->
+	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.support.StandardServletMultipartResolver"></beans:bean>
 	
 	
 </beans:beans>
